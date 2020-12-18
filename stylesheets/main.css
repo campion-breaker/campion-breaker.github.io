@@ -311,6 +311,7 @@ nav ul li img {
   padding: 1rem;
   min-width: 225px;
   margin-right: 50px;
+  margin-bottom: 100px;
 }
 
 .sidebar ul {
@@ -1059,7 +1060,7 @@ hr.minor {
 
 #case-study {
   color: #262335;
-  margin-bottom: 0;
+  margin-bottom: 100px;
 }
 
 .spacer {
