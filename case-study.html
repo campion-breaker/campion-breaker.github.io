@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Campion</title>
+
+    <link rel="stylesheet" href="stylesheets/reset.css" />
+    <link rel="stylesheet" href="stylesheets/main.css" />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="images/icons/favicons/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="images/icons/favicons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="images/icons/favicons/favicon-16x16.png"
+    />
+    <link rel="manifest" href="images/icons/favicons/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,900;1,900&family=Red+Hat+Text:ital@0;1&display=swap" rel="stylesheet">
+    <meta property="og:title" content="Campion Case Study" />
+    <meta
+      property="og:description"
+      content="An open-source PaaS for small applications"
+    />
+    <meta property="og:image" content="/images/thumbnail.png" />
+    <script type="text/javascript" src="javascripts/sidebar.js"></script>
+  </head>
+  <body>
+    <header class="header-short">
+      <nav>
+        <ul>
+          <li>
+            <a href="index.html">
+              <img src="images/logos/campion-logo.png" />
+            </a>
+          </li>
+          <li>
+            <a href="index.html">Home</a>
+          </li>
+          <li><a href="case-study.html" class="active">Case Study</a></li>
+          <li><a href="team.html">Our Team</a></li>
+          <li class="flex-float-right">
+            <a href="https://github.com/campion-breaker" target="_blank">
+              <img
+                src="images/logos/github-mark-light.png"
+                alt="Campion GitHub"
+                class="github"
+              />
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="study-wrapper">
+      <aside class="sidebar">
+        <ul>
+          <li>
+            <a href="#Introduction"> 1. Introduction</a>
+          </li>
+          <li>
+            <a href="#Systems-Architectures"> 2. Systems Architectures</a>
+          </li>
+          <li>
+            <a href="#Synchronous-vs-Asynchronous-Communication">
+              3. Sync vs. Async Communication</a
+            >
+          </li>
+          <li>
+            <a href="#What-Happens-When-a-Service-Fails">
+              4. What Happens When a Service Fails</a
+            >
+          </li>
+          <li>
+            <a href="#Failure-Scenarios"> 5. Failure Scenarios</a>
+          </li>
+          <li>
+            <a href="#Resource-Scheduling"> 6. Resource Scheduling</a>
+          </li>
+          <li>
+            <a href="#Service-Discovery"> 7. Service Discovery</a>
+          </li>
+          <li>
+            <a href="#Essential-Features"> 8. Essential Features</a>
+          </li>
+          <li>
+            <a href="#Future-Work"> 9. Future Work</a>
+          </li>
+        </ul>
+      </aside>
+
+      <main>
+        <section id="case-study">
+          <h1>Case Study</h1>
+
+          <h2 id="Introduction">1. Introduction</h2>
+
+          <p>
+            The services that make up distributed systems are going to fail.
+            It’s inevitable. Worse, by the very nature of distributed systems
+            that communicate synchronously, a single failure can cascade through
+            the entire architecture and clog up the processing power of all
+            services, rendering services unusable.
+          </p>
+
+          <p>
+            This can be ameliorated, however, by implementing the Circuit
+            Breaker Pattern. In short, a circuit breaker watches for failures in
+            a distributed service and, when a failure is detected, stops traffic
+            to the service until it can be repaired. By acting as a proxy for
+            the failed service, a circuit breaker is automatically able to keep
+            some form of data flowing through the architecture at a specific
+            time, giving a failed service the opportunity to catch back up on
+            requests or be repaired. Most importantly, though, it gives the
+            developer control over what constitutes a failure, how fast a
+            failure happens, and what happens while the failure is being
+            addressed. In other words, we can’t keep your services from failing,
+            but we can help them fail better.
+          </p>
+
+          <p>
+            Campion is an edge-based serverless framework for implementing
+            circuit-breaking functionality with synchronously called distributed
+            services.
+          </p>
+
+          <h2 id="Systems-Architectures">2. Systems Architectures</h2>
+
+          <h3 id="monolith-vs-microservices">2.1 Monolith vs. Microservices</h3>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/2.1_microservices_vs_monolith.png"
+              style="max-height: 330px"
+              alt="Monolith vs. Microservices"
+            />
+          </div>
+
+          <p>
+            In order to understand what Campion is, it is important to first
+            understand what architecture it is best suited for, and when it
+            comes to systems architectures, the two most popular ones are the
+            monolith and microservices architecture.
+          </p>
+
+          <p>
+            When first building an application, engineers usually opt to go the
+            monolith route by building out the entire functionality of the app
+            within one codebase. This allows for rapid development, ease of
+            testing, and speed of deployment. And in the early stages, this
+            makes perfect sense. When your system grows, however, a popular and
+            logical step is to move to a microservices architecture.
+          </p>
+
+          <p>
+            A microservices architecture divides the codebase into a loosely
+            coupled collection of services, each with its own, well-defined
+            responsibility. These services communicate over a network via an
+            agreed-upon communication protocol, such as HTTP. From the user’s
+            perspective, it’s just as if the entire application was hosted on
+            one server, but in the background we have all of these services
+            separated and communicating with each other over the network.
+          </p>
+
+          <p>
+            The benefits of microservices include ease of scaling, the ability
+            for teams to release updates or patches independently without the
+            need for company-wide coordination, and localization of bugs or
+            outages to only the offending service.
+          </p>
+
+          <p>
+            Campion is a framework specialized for a microservices architecture.
+          </p>
+
+          <h3 id="Issues-With-Microservices">2.2 Issues With Microservices</h3>
+
+          <blockquote>
+            <p>
+              “The network is reliable. Latency is zero. Bandwidth is infinite.”
+              – L Peter Deutsch, The Eight Fallacies of Distributed Computing
+            </p>
+          </blockquote>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/2.2_microservice_issues.png"
+              style="max-height: 400px"
+              alt="Issues With Microservices"
+            />
+          </div>
+
+          <p>
+            While a microservices architecture offers many benefits, it also
+            comes with its own share of drawbacks.
+          </p>
+
+          <p>
+            As can be seen in the above diagram, all of the services are
+            connected and communicate with one another through the network, as
+            signified by the arrows. The issue, however, is that network
+            communication introduces a multitude of potential problems given
+            that the network is inherently unreliable, it adds latency to the
+            communication between services, and that bandwidth, the maximum rate
+            of data transfer through a network path, is not infinite through
+            this network.
+          </p>
+
+          <p>
+            What happens then, when this link between Service A and Service B is
+            not working? What happens when Service B attempts to communicate
+            with Service C but Service C is not working? These are all problems
+            that engineers have to be cognisant of as they move away from a
+            monolith into a microservices architecture.
+          </p>
+
+          <h2 id="Synchronous-vs-Asynchronous-Communication">
+            3. Synchronous vs. Asynchronous Communication
+          </h2>
+
+          <p>
+            In addition to system architectures, it is also important to
+            highlight the fact that the way in which services, in a
+            microservices environment, communicate with one another varies
+            greatly.
+          </p>
+
+          <h3 id="Synchronous_communication">3.1 Synchronous Communication</h3>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/3.1_sync_communication.png"
+              style="max-height: 400px"
+              alt="Synchronous Communication"
+            />
+          </div>
+
+          <p>
+            When services communicate with one another synchronously, they wait
+            for a response from the service they are communicating with and will
+            hold back further execution until they receive a response.
+          </p>
+
+          <p>
+            In the diagram, Service A is communicating with Service B, it then
+            stops execution and waits for a response from Service B, once that
+            response arrives, Service A continues with its execution. In other
+            words, synchronous communication couples services together.
+          </p>
+
+          <p>
+            A real world example would be if you entered your login information
+            into a site and had to wait a few seconds for the site to verify
+            your information before allowing you to proceed.
+          </p>
+
+          <h3 id="Asynchronous_communication">
+            3.2 Asynchronous Communication
+          </h3>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/3.2_async_communication.png"
+              style="max-height: 400px"
+              alt="Asynchronous Communication"
+            />
+          </div>
+
+          <p>
+            When services communicate asynchronously, they do not wait for a
+            response back in order to proceed with further execution.
+          </p>
+
+          <p>
+            In a distributed environment, as can be seen in the above diagram,
+            this is often done through the use of a queue, with services sending
+            commands and events to the queue and not waiting for that particular
+            task to be completed before proceeding. In other words, Asynchronous
+            communication decouples services.
+          </p>
+
+          <p>
+            An example in the real world would be if you checked out an
+            ecommerce site and the site told you that they would send you your
+            order status and confirmation to your email at a later date.
+          </p>
+
+          <h2 id="What-Happens-When-a-Service-Fails">
+            4. What Happens When a Service Fails
+          </h2>
+
+          <p>
+            With the knowledge of how services communicate with one another, the
+            next logical step is to introduce failure into our mental model,
+            because it ifs an inevitable byproduct of microservices and systems
+            in general. For our purposes, a failed service is one that is unable
+            to respond to an incoming request via the network. This can be
+            caused by an overload of requests, a slow or faulty network
+            connection, or a problem with the service itself.
+          </p>
+
+          <h3 id="Asynchronous-failure">
+            4.1 What Happens When a Service Fails in an Asynchronous
+            Environment?
+          </h3>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/4.1_async_failure.png"
+              style="max-height: 400px"
+              alt="Asynchronous Failure"
+            />
+          </div>
+
+          <p>
+            When services communicate asynchronously, the calling service
+            continues with its execution and whether or not the task that it
+            submitted to the queue gets accomplished or not, it does not really
+            care. So it is business as usual.
+          </p>
+
+          <p>
+            Therefore, if there is a failure in Service B, who is waiting for an
+            event to be added to the queue, Service A will not be impacted by
+            this failure because it does not necessarily care when the task that
+            it submitted to the queue gets completed.
+          </p>
+
+          <h3 id="Synchronous-failure">
+            4.2 What Happens When a Service Fails in a Synchronous Environment?
+          </h3>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/4.2_sync_failure.png"
+              style="max-height: 400px"
+              alt="Synchronous Failure"
+            />
+          </div>
+
+          <p>
+            In contrast with asynchronous communication, synchronous
+            communication is vastly different in terms of its destructive
+            abilities.
+          </p>
+
+          <p>
+            As can be seen in the graphic above, Service A has made a
+            synchronous call to Service B but it is not receiving a response,
+            and the reason for that could be because Service B has failed or
+            because there was a network partition, in this case Service B has
+            failed, but regardless of what occured, all that Service A cares
+            about is a response, and it is not receiving one.
+          </p>
+
+          <p>
+            As is evident, a failure in a service that is synchronously called,
+            cripples the calling service. Campion aims to do something about
+            this problem, of how to deal with failures that occur in services
+            that are called synchronously.
+          </p>
+
+          <h2 id="Failure-Scenarios">5. Failure Scenarios</h2>
+
+          <h3 id="Loading-Spinner">5.1 Loading Spinner</h3>
+
+          <p>
+            Let us go on this journey with Mark, who is currently trying to
+            access carparts.com but all he sees is this loading spinner and
+            after a few seconds, he begins to lose hope that anything will show
+            up.
+          </p>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/loading-spinner.gif"
+              style="max-height: 25px"
+              alt="Loading Spinner"
+            />
+          </div>
+
+          <p>
+            What could be the problem here? If your site has a dependency that
+            has failed, and your users try to access your site while this
+            failure is occurring, the page never loads. A terrible experience
+            that can impact a company’s bottom line.
+          </p>
+
+          <div class="img-wrapper">
+            <img
+              src="images/diagrams/5.1_overloaded_service.png"
+              style="max-height: 500px"
+              alt="Overloaded Service"
+            />
+          </div>
+
+          <p>
+            What Mark is unaware of is that behind the scenes there is a Content
+            Loading Service, that is in charge of displaying the entire site.
+            The Content Loading Service then makes a synchronous request to
+            another service called the Image Processing Service, that is
+            responsible for fetching images and processing them.
+          </p>
+
+          <p>
+            The Image Processing Service, however, has failed, which is causing
+            the Content Loading Service to have to wait for a response that is
+            never coming. Now, the Content Loading Service is receiving multiple
+            concurrent requests from other users who are also attempting to
+            access the site, causing it to be inundated with requests. Soon
+            enough, the failure of the Image Processing Service will cause the
+            Content Loading Service to fail.
+          </p>
+
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <div class="footer-backdrop">
+        <div class="planet-spacer planet-spacer-bottom"></div>
+        <section id="our-team">
+          <h1>Our Team</h1>
+          <p>
+            We are looking for opportunities.<br />If you liked what you saw and
+            want to talk more, please reach out!
+          </p>
+          <ul>
+            <li class="individual">
+              <img src="images/team/gabe.png" alt="Gabriel De Almeida" />
+              <h3>Gabriel De Almeida</h3>
+              <p>West Palm Beach, FL</p>
+              <ul class="social-icons">
+                <li>
+                  <script type="text/javascript" language="javascript">
+                    <!-- // Generated by http://rumkin.com/tools/mailto_encoder
+                    ML = 'e/ioh lr"g<=c.mtad>:b@f';
+                    MI = ':@5470F;8>@26?3C40663E9@D7206A0@6>02A@=<3>8B:1@B';
+                    OT = '';
+                    for (j = 0; j < MI.length; j++) {
+                      OT += ML.charAt(MI.charCodeAt(j) - 48);
+                    }
+                    let arr = OT.split('</a>').slice(0, 1);
+                    arr.push(
+                      `${`<img src="images/icons/email_icon.png" alt="email" /></a>`}`
+                    );
+                    document.write(arr.join(''));
+                    // -->
+                  </script>
+                </li>
+                <li>
+                  <a href="http://www.gabrieldealmeida.com" target="_blank">
+                    <img src="images/icons/website_icon.png" alt="website" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/gabriel-dealmeida/"
+                    target="_blank"
+                  >
+                    <img src="images/icons/linked_in_icon.png" alt="linkedin" />
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="individual">
+              <img src="images/team/arthur.png" alt="Arthur Kauffman" />
+              <h3>Arthur Kauffman</h3>
+              <p>New York, NY</p>
+              <ul class="social-icons">
+                <li>
+                  <script type="text/javascript" language="javascript">
+                    <!-- // Generated by http://rumkin.com/tools/mailto_encoder
+                    ML2 = 's >h"ma@/.elo=ir<:uft';
+                    MI2 = '@613?:C=456>;D<A6?D3B?75590D42';
+                    OT2 = '';
+                    for (j = 0; j < MI2.length; j++) {
+                      OT2 += ML2.charAt(MI2.charCodeAt(j) - 48);
+                    }
+                    let arr2 = OT2.split('</a>').slice(0, 1);
+                    arr2.push(
+                      `${`<img src="images/icons/email_icon.png" alt="email" /></a>`}`
+                    );
+                    document.write(arr2.join(''));
+                    // -->
+                  </script>
+                </li>
+                <li>
+                  <a href="http://arthurkauffman.dev" target="_blank">
+                    <img src="images/icons/website_icon.png" alt="website" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/arthurkauffman/"
+                    target="_blank"
+                  >
+                    <img src="images/icons/linked_in_icon.png" alt="linkedin" />
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="individual">
+              <img src="images/team/ben.png" alt="Ben Zelinski" />
+              <h3>Ben Zelinski</h3>
+              <p>Cleveland, OH</p>
+              <ul class="social-icons">
+                <li>
+                  <script type="text/javascript" language="javascript">
+                    <!-- // Generated by http://rumkin.com/tools/mailto_encoder
+                    ML3 = ' "<z:>o.irem=cflbhagt@/';
+                    MI3 = '2B0A9:><1;B8?D64@38CC3EC;B8?7=6;15';
+                    OT3 = '';
+                    for (j = 0; j < MI3.length; j++) {
+                      OT3 += ML3.charAt(MI3.charCodeAt(j) - 48);
+                    }
+                    let arr3 = OT3.split('</a>').slice(0, 1);
+                    arr3.push(
+                      `${`<img src="images/icons/email_icon.png" alt="email" /></a>`}`
+                    );
+                    console.log(arr3);
+                    document.write(arr3.join(''));
+                    // -->
+                  </script>
+                </li>
+                <li>
+                  <a href="https://benzelinski.com" target="_blank">
+                    <img src="images/icons/website_icon.png" alt="website" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.linkedin.com/in/ben-zelinski/"
+                    target="_blank"
+                  >
+                    <img src="images/icons/linked_in_icon.png" alt="linkedin" />
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </footer>
+  </body>
+</html>
