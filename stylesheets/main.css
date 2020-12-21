@@ -214,7 +214,7 @@ img {
 
 #home {
   height: 100vh;
-  background: linear-gradient(180deg, #212121, #c79b6b);
+  background: linear-gradient(180deg, #43494d, #c79b6b);
   position: relative;
   min-height: 800px;
   z-index: 1;
@@ -267,7 +267,7 @@ nav ul li img {
 }
 
 .header-short {
-  background: linear-gradient(-90deg, #c79b6b, #212121);
+  background: linear-gradient(-90deg, #c79b6b, #43494d);
 }
 
 .banner {
@@ -526,7 +526,7 @@ h3 {
 
 footer,
 .team-wrapper {
-  background: linear-gradient(180deg, #c79b6b, #212121);
+  background: linear-gradient(180deg, #c79b6b, #43494d);
   color: #f7f7f7;
 }
 
