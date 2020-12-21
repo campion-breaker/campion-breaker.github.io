@@ -131,10 +131,15 @@
           <div class="img-wrapper">
             <img
               src="images/diagrams/2.1_microservices_vs_monolith.png"
-              style="max-height: 330px"
               alt="Monolith vs. Microservices"
             />
           </div>
+
+          <small>
+            Monolith architectures keep all components inside one structure for
+            simplicity and speed of development, whereas microservice
+            architectures are decoupled and communicate over the network.
+          </small>
 
           <p>
             In order to understand what Campion is, it is important to first
@@ -185,10 +190,15 @@
           <div class="img-wrapper">
             <img
               src="images/diagrams/2.2_microservice_issues.png"
-              style="max-height: 400px"
               alt="Issues With Microservices"
             />
           </div>
+
+          <small>
+            One of the biggest tradeoffs in a microservice architecture is
+            having to deal with failure. Here the network has failed between
+            Service A and Service B, and Service C has failed entirely.
+          </small>
 
           <p>
             While a microservices architecture offers many benefits, it also
@@ -229,10 +239,15 @@
           <div class="img-wrapper">
             <img
               src="images/diagrams/3.1_sync_communication.png"
-              style="max-height: 400px"
               alt="Synchronous Communication"
             />
           </div>
+
+          <small>
+            In synchronous communication, the calling service will wait for a
+            response.
+          </small>
+
 
           <p>
           When services communicate with one another
@@ -259,10 +274,14 @@
           <div class="img-wrapper">
             <img
               src="images/diagrams/3.2_async_communication.png"
-              style="max-height: 400px"
               alt="Asynchronous Communication"
             />
           </div>
+
+          <small>
+            In asynchronous communication, a service sends a request and
+            continues processing without waiting for a response.
+          </small>
 
           <p>
           When services communicate <strong>asynchronously</strong>, they do not wait for a
@@ -302,10 +321,14 @@
           <div class="img-wrapper">
             <img
               src="images/diagrams/4.1_async_failure.png"
-              style="max-height: 400px"
               alt="Asynchronous Failure"
             />
           </div>
+
+          <small>
+            If a service fails in an asynchronous environment, it doesn't affect
+            the calling service.
+          </small>
 
           <p>
             When services communicate asynchronously, the calling service
@@ -324,10 +347,15 @@
           <div class="img-wrapper">
             <img
               src="images/diagrams/4.2_sync_failure.png"
-              style="max-height: 400px"
               alt="Synchronous Failure"
             />
           </div>
+
+          <small>
+            In a synchronous environment, a service will wait for a response
+            indefinitely (unless a timeout has been configured). This can be
+            disastrous if the destination service has failed.
+          </small>
 
           <p>
             In contrast with asynchronous communication, synchronous
@@ -381,10 +409,15 @@
           <div class="img-wrapper">
             <img
               src="images/diagrams/5.1_overloaded_service.png"
-              style="max-height: 500px"
               alt="Overloaded Service"
             />
           </div>
+
+          <small>
+            Each request waiting on a failed service ties up a processor thread.
+            At 50+ requests per second, this can quickly cause the calling
+            service to fail.
+          </small>
 
           <p>
             What Mark is unaware of is that behind the scenes there is a Content
@@ -413,6 +446,11 @@
               alt="Overloaded Service"
             />
           </div>
+
+          <small>
+            Service D's failure can potentially cascade upstream, causing
+            services that depend on it to fail.
+          </small>
 
           <p>
             Thus, a failure in one service can lead other services to fail too.
@@ -591,6 +629,12 @@
             />
           </div>
 
+          <small>
+            With a circuit breaker, a fast failure response can be sent back,
+            saving the calling service from having to wait and shielding the
+            failed service from additional incoming requests.
+          </small>
+
           <p>
             To see exactly how the Circuit Breaker Pattern works, let’s revisit
             a synchronous failure, this time with a circuit breaker inserted
@@ -624,6 +668,12 @@
               alt="Circuit breaker state flow diagram"
             />
           </div>
+
+          <small>
+            A circuit breaker is typically closed, open, or half-open. By
+            design, it switches between these states in order to handle a failed
+            service automatically.
+          </small>
 
           <p>
             Once the threshold for allowable failures is reached, though, the
@@ -710,6 +760,11 @@
             />
           </div>
 
+          <small>
+            With a circuit breaking library, the functionality of a circuit
+            breaker happens within the app's codebase.
+          </small>
+
           <p>
             The library implementation typically injects the circuit-breaking
             logic directly into the codebase of the service that’s sending the
@@ -768,6 +823,12 @@
               alt="Circuit Breaking service mesh diagram"
             />
           </div>
+
+          <small>
+            With a service mesh, circuit breaking happens in the service
+            proxies, the sidecars that communicate with other services in the
+            system.
+          </small>
 
           <p>
             Another way to inject a circuit breaker into a system is through a
@@ -909,6 +970,11 @@
             />
           </div>
 
+          <small>
+            CDN's are a worldwide network of fast, connected servers that offer
+            the ability to distribute content and code.
+          </small>
+
           <p>
             Often people will cache static assets like images and videos on a
             CDN for max speed, then use their server for more complicated
@@ -949,6 +1015,11 @@
               alt="Diagram showing middleware deployed on CDN edge"
             />
           </div>
+
+          <small>
+            Using a CDN edge to deploy middleware can make sure that code executes
+            close to the user, minimizing added latency.
+          </small>
 
           <h3 id="edge-compute-platforms">9.3 Edge Compute Platforms</h3>
 
@@ -1092,14 +1163,14 @@
             it’s healthy.
           </p>
 
-          <div class="img-wrapper">
+          <div class="img-half">
             <img
               src="images/gifs/hanging_service.gif"
               alt="GIF of service hanging without returning timeout"
             />
           </div>
 
-          <div class="img-wrapper">
+          <div class="img-half">
             <img
               src="images/gifs/campion_open.gif"
               alt="Campion showing fast failure"

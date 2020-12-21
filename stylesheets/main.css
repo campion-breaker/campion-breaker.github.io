@@ -14,7 +14,7 @@ body {
 }
 
 main {
-  max-width: 40rem;
+  max-width: 45rem;
   margin: 0 10rem 0 0rem;
 }
 
@@ -430,7 +430,7 @@ h3 {
 }
 
 #case-study p {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   line-height: 2rem;
 }
 
@@ -442,6 +442,17 @@ h3 {
 
 .img-wrapper img {
   max-width: 100%;
+}
+
+.img-half {
+  position: relative;
+  margin: 50px 2% 50px 0;
+  width: 48%;
+  float: left;
+}
+
+.img-half img {
+  width: 100%;
 }
 
 #case-study .img-wrapper p {
@@ -613,6 +624,7 @@ small {
   text-align: center;
   font-style: italic;
   opacity: 0.5;
+  margin: 0 0 2rem;
 }
 
 #our-team small a {
