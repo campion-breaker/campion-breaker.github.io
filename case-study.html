@@ -85,7 +85,6 @@
           <li>
             <a href="#future-plans"> 11. Future Plans</a>
           </li>
-
         </ul>
       </aside>
 
@@ -153,8 +152,10 @@
             the monolith route by building out the entire functionality of the
             app within one codebase. This allows for rapid development, ease of
             testing, and speed of deployment. And in the early stages, this
-            makes perfect sense. When your system grows, however, a popular and
-            logical step is to move to a microservices architecture.
+            makes perfect sense.<sup class="footnote-ref"><a href="#fn1" 
+            id="fnref1">[1]</a></sup> When your system grows, however, a popular and
+            logical step is to move to a microservices architecture.<sup 
+            class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>
           </p>
 
           <p>
@@ -164,7 +165,8 @@
             agreed-upon communication protocol, such as HTTP. From the user’s
             perspective, it’s just as if the entire application was hosted on
             one server, but in the background these services are separated and
-            communicating with each other over the network.
+            communicating with each other over the network.<sup 
+            class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>
           </p>
 
           <p>
@@ -212,7 +214,8 @@
             communication introduces a multitude of potential problems: the
             network is inherently unreliable, it adds latency to the
             communication between services, and bandwidth, the maximum rate of
-            data transfer through a network path, is limited.
+            data transfer through a network path, is limited.<sup 
+            class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>
           </p>
 
           <p>
@@ -253,7 +256,8 @@
           When services communicate with one another
           <strong>synchronously</strong>, they wait
             for a response from the service they are communicating with and will
-            hold back further execution until they receive a response. In the
+            hold back further execution until they receive a response.<sup 
+            class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup> In the
             diagram, Service A is communicating with Service B. It then stops
             execution and waits for a response from Service B. Once that
             response arrives, Service A continues with its execution. 
@@ -285,7 +289,8 @@
 
           <p>
           When services communicate <strong>asynchronously</strong>, they do not wait for a
-            response back in order to proceed with further execution. In a
+            response back in order to proceed with further execution.<sup 
+            class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup> In a
             distributed environment, as can be seen in the above diagram, this
             is often done through the use of some sort of queue, with services
             sending commands and events to the queue and not waiting for that
@@ -310,7 +315,8 @@
             in general. For our purposes, a failed service is one that is unable
             to respond to an incoming request via the network. This can be
             caused by an overload of requests, a slow or faulty network
-            connection, or a problem with the service itself.
+            connection, or a problem with the service itself.<sup 
+            class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>
           </p>
 
           <h3 id="Asynchronous-failure">
@@ -333,11 +339,12 @@
           <p>
             When services communicate asynchronously, the calling service
             continues with its execution and doesn’t care whether or not the
-            task that it submitted to the queue gets accomplished. Therefore, if
-            there is a failure in Service B, which is waiting for an event to be
-            added to the queue, Service A will not be impacted by this failure
-            because it does not necessarily care when the task that it submitted
-            to the queue gets completed.
+            task that it submitted to the queue gets accomplished.<sup 
+            class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup> 
+            Therefore, if there is a failure in Service B, which is waiting for 
+            an event to be added to the queue, Service A will not be impacted by 
+            this failure because it does not necessarily care when the task that 
+            it submitted to the queue gets completed.
           </p>
 
           <h3 id="Synchronous-failure">
@@ -375,7 +382,8 @@
 
           <p>
             As is evident, a failure in a service that is called synchronously
-            can quickly cripple the calling service. Campion aims to do
+            can quickly cripple the calling service.<sup class="footnote-ref">
+            <a href="#fn9" id="fnref9">[9]</a></sup> Campion aims to do
             something about this problem: dealing with failures that occur in
             services that are called synchronously.
           </p>
@@ -415,7 +423,7 @@
 
           <small>
             Each request waiting on a failed service ties up a processor thread.
-            At 50+ requests per second, this can quickly cause the calling
+            With many incoming requests per second, this can quickly cause the calling
             service to fail.
           </small>
 
@@ -469,7 +477,8 @@
             and the failure of Service C has now led Service B to be tied up
             waiting for a response and consuming resources. The failure of one
             service has now set off a chain reaction formally known as cascading
-            failure.
+            failure.<sup class="footnote-ref"><a href="#fn10" 
+            id="fnref10">[10]</a></sup>
           </p>
 
           <p>
@@ -509,7 +518,8 @@
           <p>
             A failure in one service can not only cascade into other upstream
             services, but it can also impede the failed services from bringing
-            themselves back up. What seemed like an innocent spinner on a
+            themselves back up.<sup class="footnote-ref"><a href="#fn11" 
+            id="fnref11">[11]</a></sup> What seemed like an innocent spinner on a
             website was actually an architecture that was ill-prepared to handle
             failure. This led Mark to take his business elsewhere.
           </p>
@@ -518,7 +528,8 @@
 
           <p>
             Shopify, the e-commerce giant, faced this exact problem of failure
-            in a synchronous environment. One of its services attempted to
+            in a synchronous environment.<sup class="footnote-ref"><a href="#fn12" 
+            id="fnref12">[12]</a></sup> One of its services attempted to
             communicate with a Redis service responsible for storing session
             data, but when this session database service failed, it quickly led
             to the overutilization of the services that depended on it, and
@@ -567,7 +578,8 @@
             synchronous request so that a service is never waiting for a
             response forever. This is especially true in a front-end environment
             where a dependency failure could cause an entire site to hang on
-            loading indefinitely. Ideally, there would be some way to track how
+            loading indefinitely.<sup class="footnote-ref"><a href="#fn13" 
+            id="fnref13">[13]</a></sup> Ideally, there would be some way to track how
             often a request fails so that a service can be considered to have
             failed, allowing for the return of an immediate failure instead of
             making a pointless request. 
@@ -712,7 +724,8 @@
             ability is invaluable. As Jeremy Daly of Serverless Chats best puts
             it, "Allowing your systems to self-identify issues like this,
             provide incremental backoff, and then self-heal when the service
-            comes back online makes you feel like a superhero!"
+            comes back online makes you feel like a superhero!"<sup 
+            class="footnote-ref"><a href="#fn14" id="fnref14">[14]</a></sup>
           </p>
 
           <h3 id="vs-other-patterns">7.3 Circuit Breaker vs. Other Stability
@@ -924,7 +937,8 @@
             We found other open-source projects that implemented circuit
             breaking as a middleware, but none of them had much traction.
             Perhaps one reason for this is due to the nature of middleware
-            itself. The problem with middleware, of course, is latency. By
+            itself. The problem with middleware, of course, is latency.<sup 
+            class="footnote-ref"><a href="#fn15" id="fnref15">[15]</a></sup> By
             necessity, if a service like Campion sits in the middle between the
             request-response cycle, a request needs to be routed through it
             before being forwarded on to the destination. 
@@ -1039,7 +1053,8 @@
             our tests, it proved to be faster than the Amazon offering, both in
             initial setup and with throughput on requests. On average, Workers
             was 28% faster than Lambda@Edge from an end-user perspective when
-            processing a request and returning a response. 
+            processing a request and returning a response.<sup 
+            class="footnote-ref"><a href="#fn16" id="fnref16">[16]</a></sup> 
           </p>
 
           <p>
@@ -1191,13 +1206,6 @@
 
           <h3 id="campion-flip">10.2 Campion Flip</h3>
 
-          <div class="img-wrapper">
-            <img
-              src="images/gifs/campion_flip.gif"
-              alt="Campion demonstration of flip functionality"
-            />
-          </div>
-
           <p>
             Let’s try something else. We’ve already added the service that we
             want to protect here and named it “GET Restrooms List”. This is a
@@ -1215,6 +1223,13 @@
             until the breaker is flipped back manually. Half-open will let a
             percentage of the traffic through.
           </p>
+
+          <div class="img-wrapper">
+            <img
+              src="images/gifs/campion_flip.gif"
+              alt="Campion demonstration of flip functionality"
+            />
+          </div>
 
           <p>
             In the above example, we’re using flip to test out our
@@ -1263,7 +1278,8 @@
             time. Depending on how many requests you get, tweaking these options
             can make a huge difference in the utilization of your services, as
             Shopify writes in their piece “Your Circuit-Breaker is
-            Misconfigured”. We wanted to make it easy for people to see and
+            Misconfigured”.<sup class="footnote-ref"><a href="#fn17" 
+            id="fnref17">[17]</a></sup> We wanted to make it easy for people to see and
             configure their settings in one place.
           </p>
 
@@ -1307,8 +1323,127 @@
             services. 
           </p>
 
-          <p>
-          </p>
+          <h2 id="footnotes">Notes</h2>
+
+          <div class="footnotes">
+            <ol class="footnotes-list">
+              <li id="fn1" class="footnote-item">
+                <a href="https://martinfowler.com/bliki/MonolithFirst.html">
+                  https://martinfowler.com/bliki/MonolithFirst.html
+                </a>
+                <a href="#fnref1" >↩︎</a>
+              </li>
+              <li id="fn2" class="footnote-item">
+                <a
+                  href="https://martinfowler.com/articles/break-monolith-into-microservices.html">
+                  https://martinfowler.com/articles/break-monolith-into-microservices.html 
+                </a>
+                <a href="#fnref2" >↩︎</a>
+              </li>
+              <li id="fn3" class="footnote-item">
+                <a
+                  href="https://martinfowler.com/articles/microservices.html">
+                  https://martinfowler.com/articles/microservices.html
+                </a>
+                <a href="#fnref3" >↩︎</a>
+              </li>
+              <li id="fn4" class="footnote-item">
+                <a
+                  href="https://martinfowler.com/articles/microservices.html">
+                  https://martinfowler.com/articles/microservices.html
+                </a>
+                <a href="#fnref4" >↩︎</a>
+              </li>
+              <li id="fn5" class="footnote-item">
+                <a
+                  href="http://msdl.cs.mcgill.ca/people/tfeng/thesis/node38.html">
+                  http://msdl.cs.mcgill.ca/people/tfeng/thesis/node38.html
+                </a>
+                <a href="#fnref5" >↩︎</a>
+              </li>
+              <li id="fn6" class="footnote-item">
+                <a
+                  href="http://msdl.cs.mcgill.ca/people/tfeng/thesis/node38.html">
+                  http://msdl.cs.mcgill.ca/people/tfeng/thesis/node38.html
+                </a>
+                <a href="#fnref6" >↩︎</a>
+              </li>
+              <li id="fn7" class="footnote-item">
+                <a
+                  href="https://dzone.com/articles/expecting-failures-in-microservices-and-working-ar">
+                  https://dzone.com/articles/expecting-failures-in-microservices-and-working-ar
+                </a>
+                <a href="#fnref7" >↩︎</a>
+              </li>
+              <li id="fn8" class="footnote-item">
+                <a
+                  href="https://dzone.com/articles/patterns-for-microservices-sync-vs-async">
+                  https://dzone.com/articles/patterns-for-microservices-sync-vs-async
+                </a>
+                <a href="#fnref8" >↩︎</a>
+              </li>
+              <li id="fn9" class="footnote-item">
+                <a
+                  href="https://dzone.com/articles/patterns-for-microservices-sync-vs-async">
+                  https://dzone.com/articles/patterns-for-microservices-sync-vs-async
+                </a>
+                <a href="#fnref9" >↩︎</a>
+              </li>
+              <li id="fn10" class="footnote-item">
+                <a
+                  href="https://www.infoq.com/articles/anatomy-cascading-failure/">
+                  https://www.infoq.com/articles/anatomy-cascading-failure/
+                </a>
+                <a href="#fnref10" >↩︎</a>
+              </li>
+              <li id="fn11" class="footnote-item">
+                <a
+                  href="https://openprairie.sdstate.edu/cgi/viewcontent.cgi?article=4417&context=etd">
+                  https://openprairie.sdstate.edu/cgi/viewcontent.cgi?article=4417&context=etd
+                </a>
+                <a href="#fnref11" >↩︎</a>
+              </li>
+              <li id="fn12" class="footnote-item">
+                <a
+                  href="https://shopify.engineering/circuit-breaker-misconfigured">
+                  https://shopify.engineering/circuit-breaker-misconfigured
+                </a>
+                <a href="#fnref12" >↩︎</a>
+              </li>
+              <li id="fn13" class="footnote-item">
+                 Or until browser timeout, which in the case of Google Chrome,
+                 is five minutes.
+                <a href="#fnref13" >↩︎</a>
+              </li>
+              <li id="fn14" class="footnote-item">
+                <a
+                  href="https://medium.com/@jeremydaly/serverless-microservice-patterns-for-aws-6dadcd21bc02">
+                  https://medium.com/@jeremydaly/serverless-microservice-patterns-for-aws-6dadcd21bc02
+                </a>
+                <a href="#fnref14" >↩︎</a>
+              </li>
+              <li id="fn15" class="footnote-item">
+                Latency: the time it takes for data to travel across a network.
+                <a href="#fnref15" >↩︎</a>
+              </li>
+              <li id="fn16" class="footnote-item">
+                This lines up with Cloudflare’s own testing,which shows
+                significant speed increases of Workers compared to Lambda@Edge:
+                <a
+                  href="https://blog.cloudflare.com/serverless-performance-comparison-workers-lambda/">
+                  https://blog.cloudflare.com/serverless-performance-comparison-workers-lambda/
+                </a>
+                <a href="#fnref16" >↩︎</a>
+              </li>
+              <li id="fn17" class="footnote-item">
+                <a
+                  href="https://shopify.engineering/circuit-breaker-misconfigured">
+                  https://shopify.engineering/circuit-breaker-misconfigured
+                </a>
+                <a href="#fnref17" >↩︎</a>
+              </li>
+            </ol>
+          </div>
         </section>
       </main>
     </div>

@@ -388,6 +388,12 @@ nav ul li img {
 
 #case-study a {
   color: #ff6600;
+  text-decoration: none;
+}
+
+#case-study a:hover,
+#case-study a.active {
+  color: #43494d;
 }
 
 #case-study h3,
@@ -509,6 +515,11 @@ h3 {
 
 #slidehow img.active {
   display: block;
+}
+
+li.footnote-item {
+  font-size: 1rem !important;
+  margin-bottom: 15px;
 }
 
 .buttons {
