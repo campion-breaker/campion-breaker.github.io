@@ -214,7 +214,7 @@ img {
 
 #home {
   height: 100vh;
-  background: linear-gradient(180deg, #43494d, #1b001c);
+  background: linear-gradient(180deg, #43494d, #18033A);
   position: relative;
   min-height: 800px;
   z-index: 1;
@@ -267,7 +267,7 @@ nav ul li img {
 }
 
 .header-short {
-  background: linear-gradient(-90deg, #1b001c, #43494d);
+  background: linear-gradient(-90deg, #18033A, #43494d);
 }
 
 .banner {
@@ -537,7 +537,7 @@ li.footnote-item {
 
 footer,
 .team-wrapper {
-  background: linear-gradient(180deg, #43494d, #1b001c);
+  background: linear-gradient(180deg, #43494d, #18033A);
   color: #f7f7f7;
 }
 
