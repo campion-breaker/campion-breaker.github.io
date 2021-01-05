@@ -143,10 +143,8 @@
           </small>
 
           <p>
-            In order to understand what Campion is, it is important to first
-            understand what architecture it is designed for. When it comes to
-            systems architectures, the two most popular ones are the monolith
-            and microservices architecture.
+            In order to understand what Campion is, it's important to first
+            understand what architecture it's designed for.
           </p>
 
           <p>
@@ -539,7 +537,7 @@
           </p>
 
           <p>
-            Unlike the above scenario, Shopify’s developers had the competence
+            Unlike the above scenario, Shopify’s developers had the foresight
             to build in a two second timeout for each synchronous request,
             ensuring that a failed service would be less likely to cause
             cascading failure.
@@ -600,7 +598,7 @@
 
           <p>
             The Circuit Breaker pattern was popularized in 2007 in Michael
-            Nygard’s book, Release It!. It’s one of many of what he calls
+            Nygard’s book, <a href="https://pragprog.com/titles/mnee2/release-it-second-edition/" target="_blank" >Release It!</a>. It’s one of many of what he calls
             Stability Patterns, which are designed to help lessen and contain
             the effects of failure in a distributed system.
           </p>
@@ -619,7 +617,7 @@
           </p>
 
           <p>
-            The Circuit Breaker pattern similarly to an electrical circuit
+            The Circuit Breaker pattern works similarly to an electrical circuit
             breaker &mdash; a switch is inserted between a component and the rest of
             the system. In electrical systems, a circuit is isolated; in an
             application, it’s a service.
@@ -676,6 +674,18 @@
             state.
           </p>
 
+          <p>
+            Once the threshold for allowable failures is reached, though, the
+            circuit breaker ‘flips’ open. This severs the connection between the
+            system and the service, which is now considered ‘failed’. This also
+            initializes a cooldown period, during which no traffic is allowed to
+            pass. During the cooldown period, any incoming requests are returned
+            immediately to the system with a failure response, and the state of
+            the circuit breaker remains open. This cooldown period gives a
+            failed service time to catch up and self-heal without having to
+            address new input.
+          </p>
+
           <div class="img-wrapper">
             <img
               src="images/gifs/circuit_breaker_flow.gif"
@@ -688,18 +698,6 @@
             design, it switches between these states in order to handle a failed
             service automatically.
           </small>
-
-          <p>
-            Once the threshold for allowable failures is reached, though, the
-            circuit breaker ‘flips’ open. This severs the connection between the
-            system and the service, which is now considered ‘failed’. This also
-            initializes a cooldown period, during which no traffic is allowed to
-            pass. During the cooldown period, any incoming requests are returned
-            immediately to the system with a failure response, and the state of
-            the circuit breaker remains open. This cooldown period gives a
-            failed service time to catch up and self-heal without having to
-            address new input.
-          </p>
 
           <p>
             After the cooldown period expires. The circuit breaker flips to an
@@ -735,7 +733,8 @@
 
           <p>
             The Circuit Breaker Pattern is only one of many Stability Patterns
-            that help a distributed system address failure. So why use a Circuit
+            that help a distributed system address failure.<sup
+            class="footnote-ref"><a href="#fn15" id="fnref15">[15]</a></sup> So why use a Circuit
             Breaker, rather than one of the other Stability Patterns?
           </p>
 
@@ -787,7 +786,8 @@
             sent. In the Shopify example mentioned above, Shopify’s developer
             team were able to decrease utilization of their services by writing
             their own circuit breaker in Ruby, called Semian. Perhaps the best
-            known example of a circuit breaker library is the Hystrix project
+            known example of a circuit breaker library is the 
+            <a href="https://github.com/Netflix/Hystrix" target="_blank" >Hystrix</a> project
             for Java, which was developed by Netflix in 2012 but is no longer
             actively maintained.
           </p>
@@ -862,7 +862,7 @@
 
           <p>
             For systems that already incorporate a service mesh that does
-            circuit breaking, such as Istio (which leverages Lyft’s Envoy
+            circuit breaking, such as <a href="https://istio.io/" target="_blank" >Istio</a> (which leverages Lyft’s Envoy
             proxy), implementing a circuit breaker is simply a matter of
             configuring the functionality that often comes standard from most
             service mesh providers.
@@ -940,7 +940,7 @@
             breaking as a middleware, but none of them had much traction.
             Perhaps one reason for this is due to the nature of middleware
             itself. The problem with middleware, of course, is latency.<sup
-            class="footnote-ref"><a href="#fn15" id="fnref15">[15]</a></sup> By
+            class="footnote-ref"><a href="#fn16" id="fnref16">[16]</a></sup> By
             necessity, if a service like Campion sits in the middle between the
             request-response cycle, a request needs to be routed through it
             before being forwarded on to the destination.
@@ -1056,7 +1056,7 @@
             initial setup and with throughput on requests. On average, Workers
             was 28% faster than Lambda@Edge from an end-user perspective when
             processing a request and returning a response.<sup
-            class="footnote-ref"><a href="#fn16" id="fnref16">[16]</a></sup>
+            class="footnote-ref"><a href="#fn17" id="fnref17">[17]</a></sup>
           </p>
 
           <p>
@@ -1162,9 +1162,9 @@
           </div>
 
           <p>
-          To set up a circuit breaker with Campion, simply type <em>campion
-            add</em> or
-          <em>campionaws add</em>. We walk you through adding a new service. You enter
+          To set up a circuit breaker with Campion, simply type <code>campion
+            add</code> or
+          <code>campionaws add</code>. We walk you through adding a new service. You enter
             the URL and name of the service, and we ask you specific questions
             about how to tune your circuit breaker. If you’re not sure, you can
             accept our sensible default settings. As you can see, the process
@@ -1280,8 +1280,8 @@
             time. Depending on how many requests you get, tweaking these options
             can make a huge difference in the utilization of your services, as
             Shopify writes in their piece “Your Circuit-Breaker is
-            Misconfigured”.<sup class="footnote-ref"><a href="#fn17"
-            id="fnref17">[17]</a></sup> We wanted to make it easy for people to see and
+            Misconfigured”.<sup class="footnote-ref"><a href="#fn18"
+            id="fnref18">[18]</a></sup> We wanted to make it easy for people to see and
             configure their settings in one place.
           </p>
 
@@ -1425,24 +1425,31 @@
                 <a href="#fnref14" >↩︎</a>
               </li>
               <li id="fn15" class="footnote-item">
-                Latency: the time it takes for data to travel across a network.
+                <a
+                  href="https://pragprog.com/titles/mnee2/release-it-second-edition/">
+                  https://pragprog.com/titles/mnee2/release-it-second-edition/
+                </a>
                 <a href="#fnref15" >↩︎</a>
               </li>
               <li id="fn16" class="footnote-item">
+                Latency: the time it takes for data to travel across a network.
+                <a href="#fnref16" >↩︎</a>
+              </li>
+              <li id="fn17" class="footnote-item">
                 This lines up with Cloudflare’s own testing, which shows
                 significant speed increases of Workers compared to Lambda@Edge:
                 <a
                   href="https://blog.cloudflare.com/serverless-performance-comparison-workers-lambda/">
                   https://blog.cloudflare.com/serverless-performance-comparison-workers-lambda/
                 </a>
-                <a href="#fnref16" >↩︎</a>
+                <a href="#fnref17" >↩︎</a>
               </li>
-              <li id="fn17" class="footnote-item">
+              <li id="fn18" class="footnote-item">
                 <a
                   href="https://shopify.engineering/circuit-breaker-misconfigured">
                   https://shopify.engineering/circuit-breaker-misconfigured
                 </a>
-                <a href="#fnref17" >↩︎</a>
+                <a href="#fnref18" >↩︎</a>
               </li>
             </ol>
           </div>
