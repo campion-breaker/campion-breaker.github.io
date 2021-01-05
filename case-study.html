@@ -12,9 +12,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicons/favicon-16x16.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
 
+    <script type="text/javascript" src="javascripts/sidebar.js"></script>
+    <meta property="og:image" content="/images/logos/campion-logo.png">
     <meta property="og:title" content="Campion" />
     <meta property="og:description" content="An edge-based circuit breaking middleware" />
   </head>
@@ -99,7 +101,7 @@
             It’s inevitable. Worse, by the very nature of distributed systems
             that communicate synchronously, a single failure can cascade through
             the entire architecture and clog up the processing power of all
-            services, rendering services unusable. 
+            services, rendering services unusable.
           </p>
 
           <p>
@@ -152,9 +154,9 @@
             the monolith route by building out the entire functionality of the
             app within one codebase. This allows for rapid development, ease of
             testing, and speed of deployment. And in the early stages, this
-            makes perfect sense.<sup class="footnote-ref"><a href="#fn1" 
+            makes perfect sense.<sup class="footnote-ref"><a href="#fn1"
             id="fnref1">[1]</a></sup> When your system grows, however, a popular and
-            logical step is to move to a microservices architecture.<sup 
+            logical step is to move to a microservices architecture.<sup
             class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>
           </p>
 
@@ -165,7 +167,7 @@
             agreed-upon communication protocol, such as HTTP. From the user’s
             perspective, it’s just as if the entire application was hosted on
             one server, but in the background these services are separated and
-            communicating with each other over the network.<sup 
+            communicating with each other over the network.<sup
             class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>
           </p>
 
@@ -173,7 +175,7 @@
             The benefits of a microservice architecture includes ease of
             scaling, the ability for teams to release updates or patches
             independently without the need for company-wide coordination, and
-            localization of bugs or outages to only the offending service. 
+            localization of bugs or outages to only the offending service.
           </p>
 
           <p>
@@ -214,7 +216,7 @@
             communication introduces a multitude of potential problems: the
             network is inherently unreliable, it adds latency to the
             communication between services, and bandwidth, the maximum rate of
-            data transfer through a network path, is limited.<sup 
+            data transfer through a network path, is limited.<sup
             class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>
           </p>
 
@@ -256,11 +258,11 @@
           When services communicate with one another
           <strong>synchronously</strong>, they wait
             for a response from the service they are communicating with and will
-            hold back further execution until they receive a response.<sup 
+            hold back further execution until they receive a response.<sup
             class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup> In the
             diagram, Service A is communicating with Service B. It then stops
             execution and waits for a response from Service B. Once that
-            response arrives, Service A continues with its execution. 
+            response arrives, Service A continues with its execution.
           </p>
 
           <p>
@@ -289,12 +291,12 @@
 
           <p>
           When services communicate <strong>asynchronously</strong>, they do not wait for a
-            response back in order to proceed with further execution.<sup 
+            response back in order to proceed with further execution.<sup
             class="footnote-ref"><a href="#fn6" id="fnref6">[6]</a></sup> In a
             distributed environment, as can be seen in the above diagram, this
             is often done through the use of some sort of queue, with services
             sending commands and events to the queue and not waiting for that
-            particular task to be completed before proceeding. 
+            particular task to be completed before proceeding.
           </p>
 
           <p>
@@ -315,7 +317,7 @@
             in general. For our purposes, a failed service is one that is unable
             to respond to an incoming request via the network. This can be
             caused by an overload of requests, a slow or faulty network
-            connection, or a problem with the service itself.<sup 
+            connection, or a problem with the service itself.<sup
             class="footnote-ref"><a href="#fn7" id="fnref7">[7]</a></sup>
           </p>
 
@@ -339,11 +341,11 @@
           <p>
             When services communicate asynchronously, the calling service
             continues with its execution and doesn’t care whether or not the
-            task that it submitted to the queue gets accomplished.<sup 
-            class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup> 
-            Therefore, if there is a failure in Service B, which is waiting for 
-            an event to be added to the queue, Service A will not be impacted by 
-            this failure because it does not necessarily care when the task that 
+            task that it submitted to the queue gets accomplished.<sup
+            class="footnote-ref"><a href="#fn8" id="fnref8">[8]</a></sup>
+            Therefore, if there is a failure in Service B, which is waiting for
+            an event to be added to the queue, Service A will not be impacted by
+            this failure because it does not necessarily care when the task that
             it submitted to the queue gets completed.
           </p>
 
@@ -477,7 +479,7 @@
             and the failure of Service C has now led Service B to be tied up
             waiting for a response and consuming resources. The failure of one
             service has now set off a chain reaction formally known as cascading
-            failure.<sup class="footnote-ref"><a href="#fn10" 
+            failure.<sup class="footnote-ref"><a href="#fn10"
             id="fnref10">[10]</a></sup>
           </p>
 
@@ -518,7 +520,7 @@
           <p>
             A failure in one service can not only cascade into other upstream
             services, but it can also impede the failed services from bringing
-            themselves back up.<sup class="footnote-ref"><a href="#fn11" 
+            themselves back up.<sup class="footnote-ref"><a href="#fn11"
             id="fnref11">[11]</a></sup> What seemed like an innocent spinner on a
             website was actually an architecture that was ill-prepared to handle
             failure. This led Mark to take his business elsewhere.
@@ -528,14 +530,14 @@
 
           <p>
             Shopify, the e-commerce giant, faced this exact problem of failure
-            in a synchronous environment.<sup class="footnote-ref"><a href="#fn12" 
+            in a synchronous environment.<sup class="footnote-ref"><a href="#fn12"
             id="fnref12">[12]</a></sup> One of its services attempted to
             communicate with a Redis service responsible for storing session
             data, but when this session database service failed, it quickly led
             to the overutilization of the services that depended on it, and
             resulted in unacceptable customer experience.
           </p>
-          
+
           <p>
             Unlike the above scenario, Shopify’s developers had the competence
             to build in a two second timeout for each synchronous request,
@@ -558,7 +560,7 @@
             this case, it is preferable that if the Redis store is unavailable,
             the customer’s page renders as soon as possible with sessions “soft
             disabled,” resulting in a tolerable, if not perfect, user
-            experience. 
+            experience.
           </p>
 
           <h2 id="how-to-fail-better">6. How to Fail Better in a Synchronous
@@ -572,17 +574,17 @@
             that a system is resilient to such potential catastrophes, it is
             necessary to approach failure in such an environment properly.
           </p>
-          
+
           <p>
             At minimum, a timeout component needs to be incorporated into every
             synchronous request so that a service is never waiting for a
             response forever. This is especially true in a front-end environment
             where a dependency failure could cause an entire site to hang on
-            loading indefinitely.<sup class="footnote-ref"><a href="#fn13" 
+            loading indefinitely.<sup class="footnote-ref"><a href="#fn13"
             id="fnref13">[13]</a></sup> Ideally, there would be some way to track how
             often a request fails so that a service can be considered to have
             failed, allowing for the return of an immediate failure instead of
-            making a pointless request. 
+            making a pointless request.
           </p>
 
 
@@ -600,14 +602,14 @@
             The Circuit Breaker pattern was popularized in 2007 in Michael
             Nygard’s book, Release It!. It’s one of many of what he calls
             Stability Patterns, which are designed to help lessen and contain
-            the effects of failure in a distributed system. 
+            the effects of failure in a distributed system.
           </p>
 
           <blockquote>
             Preventing failure is a fool’s errand; the best we can hope to do is
-            handle failure gracefully. 
+            handle failure gracefully.
           </blockquote>
-          
+
           <p>
             The Circuit Breaker combines all of the above principles to provide
             an effective failure-mitigation strategy &mdash; it implements a timeout,
@@ -620,7 +622,7 @@
             The Circuit Breaker pattern similarly to an electrical circuit
             breaker &mdash; a switch is inserted between a component and the rest of
             the system. In electrical systems, a circuit is isolated; in an
-            application, it’s a service. 
+            application, it’s a service.
           </p>
 
           <p>
@@ -671,7 +673,7 @@
             however, the circuit breaker checks to see if the number of recent
             failures is within an user-defined threshold. If it is within the
             threshold, it logs the new failure and continues in the ‘closed’
-            state. 
+            state.
           </p>
 
           <div class="img-wrapper">
@@ -696,7 +698,7 @@
             immediately to the system with a failure response, and the state of
             the circuit breaker remains open. This cooldown period gives a
             failed service time to catch up and self-heal without having to
-            address new input. 
+            address new input.
           </p>
 
           <p>
@@ -704,7 +706,7 @@
             in-between state, known as half-open. The half-open state is very
             similar to a recloser in electrical systems. In this state, only a
             percentage of the incoming requests are allowed through, in order to
-            test the health of the downed service. 
+            test the health of the downed service.
           </p>
 
           <p>
@@ -724,7 +726,7 @@
             ability is invaluable. As Jeremy Daly of Serverless Chats best puts
             it, "Allowing your systems to self-identify issues like this,
             provide incremental backoff, and then self-heal when the service
-            comes back online makes you feel like a superhero!"<sup 
+            comes back online makes you feel like a superhero!"<sup
             class="footnote-ref"><a href="#fn14" id="fnref14">[14]</a></sup>
           </p>
 
@@ -761,7 +763,7 @@
 
           <p>
             Existing Circuit Breaker implementations can be sorted into two
-            major types, libraries and service meshes. 
+            major types, libraries and service meshes.
           </p>
 
           <h3 id="libraries">8.1 Libraries</h3>
@@ -811,7 +813,7 @@
             infrastructure and no latency added to the request. Libraries are
             typically relatively easy to implement in smaller codebases. Usually
             it’s just a matter of importing a package, reading the
-            documentation, and updating the code. 
+            documentation, and updating the code.
           </p>
 
           <p>
@@ -845,7 +847,7 @@
 
           <p>
             Another way to inject a circuit breaker into a system is through a
-            Service Mesh. 
+            Service Mesh.
           </p>
 
           <p>
@@ -863,7 +865,7 @@
             circuit breaking, such as Istio (which leverages Lyft’s Envoy
             proxy), implementing a circuit breaker is simply a matter of
             configuring the functionality that often comes standard from most
-            service mesh providers. 
+            service mesh providers.
           </p>
 
           <strong>Pros:</strong>
@@ -890,7 +892,7 @@
             multiple circuit breakers is centralized and can be managed in one
             spot. Finally, service meshes offer myriad features other than
             circuit breaking, ranging from additional Stability Patterns to load
-            balancing and automatic retry logic. 
+            balancing and automatic retry logic.
           </p>
 
           <p>
@@ -918,7 +920,7 @@
             reveals an opening for a slightly different implementation of a
             circuit breaker, especially if the primary goals are simplicity,
             reusability, and ease of use and the target use case is external
-            services and dependencies. Namely, middleware. 
+            services and dependencies. Namely, middleware.
           </p>
 
           <p>
@@ -928,7 +930,7 @@
             cycle between external services. This would allow it to be inserted
             anywhere a circuit breaker was needed, without regard for language
             compatibility, and without having to wade through documentation and
-            additional configuration code. 
+            additional configuration code.
           </p>
 
           <h2 id="designing-campion">9. Designing Campion</h2>
@@ -937,11 +939,11 @@
             We found other open-source projects that implemented circuit
             breaking as a middleware, but none of them had much traction.
             Perhaps one reason for this is due to the nature of middleware
-            itself. The problem with middleware, of course, is latency.<sup 
+            itself. The problem with middleware, of course, is latency.<sup
             class="footnote-ref"><a href="#fn15" id="fnref15">[15]</a></sup> By
             necessity, if a service like Campion sits in the middle between the
             request-response cycle, a request needs to be routed through it
-            before being forwarded on to the destination. 
+            before being forwarded on to the destination.
           </p>
 
           <div class="img-wrapper">
@@ -974,7 +976,7 @@
             every server in the CDN network. If somebody in Asia wants to
             download the video, their request gets routed to the server nearest
             them. Using a CDN makes sure that every request has a short
-            roundtrip. 
+            roundtrip.
           </p>
 
           <div class="img-wrapper">
@@ -1006,7 +1008,7 @@
             other words, executing dynamic code no longer required a traditional
             server, but could be uploaded to a CDN and executed there. The
             advantage here is clear: code can run close to the user, so latency
-            is minimal and requests are fast. 
+            is minimal and requests are fast.
           </p>
 
           <h3 id="on-the-edge">9.2 Campion on the Edge</h3>
@@ -1053,8 +1055,8 @@
             our tests, it proved to be faster than the Amazon offering, both in
             initial setup and with throughput on requests. On average, Workers
             was 28% faster than Lambda@Edge from an end-user perspective when
-            processing a request and returning a response.<sup 
-            class="footnote-ref"><a href="#fn16" id="fnref16">[16]</a></sup> 
+            processing a request and returning a response.<sup
+            class="footnote-ref"><a href="#fn16" id="fnref16">[16]</a></sup>
           </p>
 
           <p>
@@ -1117,7 +1119,7 @@
             As discussed earlier, libraries provide a feature-specific way to do
             circuit breaking without adding new infrastructure, but quickly
             become tough to manage when the codebase grows and services get
-            written in different languages. 
+            written in different languages.
           </p>
 
           <p>
@@ -1125,7 +1127,7 @@
             adding anything to your codebase, service meshes are an obvious
             option. But service meshes bundle in a lot of other functionality
             that not everyone needs, and can be very complex to configure and
-            maintain. 
+            maintain.
           </p>
 
           <p>
@@ -1136,7 +1138,7 @@
             services that aren’t exposed to the internet, we aren’t the right
             fit for you. But if you want to add circuit breaking to a web app to
             make sure it’s protected from failing dependencies, Campion makes
-            that easy. 
+            that easy.
           </p>
 
           <h2 id="features">10. Features</h2>
@@ -1168,7 +1170,7 @@
             accept our sensible default settings. As you can see, the process
             completes within seconds. Campion gives you a new URL. This is the
             URL you will add to all your code, wherever you make requests to
-            your service. 
+            your service.
           </p>
 
           <p>
@@ -1210,7 +1212,7 @@
             Let’s try something else. We’ve already added the service that we
             want to protect here and named it “GET Restrooms List”. This is a
             public API from Refuge Restrooms, a service that provides location
-            data for safe public restroom access for transgender individuals. 
+            data for safe public restroom access for transgender individuals.
           </p>
 
           <p>
@@ -1278,7 +1280,7 @@
             time. Depending on how many requests you get, tweaking these options
             can make a huge difference in the utilization of your services, as
             Shopify writes in their piece “Your Circuit-Breaker is
-            Misconfigured”.<sup class="footnote-ref"><a href="#fn17" 
+            Misconfigured”.<sup class="footnote-ref"><a href="#fn17"
             id="fnref17">[17]</a></sup> We wanted to make it easy for people to see and
             configure their settings in one place.
           </p>
@@ -1307,7 +1309,7 @@
             with a command line tool and a frontend for stats. For future
             development goals, we’d like to focus on adding more features to the
             frontend, including all of the functionality currently available on
-            the command line. 
+            the command line.
           </p>
 
           <p>
@@ -1320,7 +1322,7 @@
           <p>
             Finally, we’d like to add email notifications so that a user can
             configure key alerts in order to quickly know the status of their
-            services. 
+            services.
           </p>
 
           <h2 id="footnotes">Notes</h2>
@@ -1336,7 +1338,7 @@
               <li id="fn2" class="footnote-item">
                 <a
                   href="https://martinfowler.com/articles/break-monolith-into-microservices.html">
-                  https://martinfowler.com/articles/break-monolith-into-microservices.html 
+                  https://martinfowler.com/articles/break-monolith-into-microservices.html
                 </a>
                 <a href="#fnref2" >↩︎</a>
               </li>
@@ -1427,7 +1429,7 @@
                 <a href="#fnref15" >↩︎</a>
               </li>
               <li id="fn16" class="footnote-item">
-                This lines up with Cloudflare’s own testing,which shows
+                This lines up with Cloudflare’s own testing, which shows
                 significant speed increases of Workers compared to Lambda@Edge:
                 <a
                   href="https://blog.cloudflare.com/serverless-performance-comparison-workers-lambda/">
@@ -1480,7 +1482,7 @@
                   </script>
                 </li>
                 <li>
-                  <a href="http://www.gabrieldealmeida.com" target="_blank">
+                  <a href="https://gabrieldealmeida.com" target="_blank">
                     <img src="images/icons/website_icon.png" alt="website" />
                   </a>
                 </li>
@@ -1516,13 +1518,13 @@
                   </script>
                 </li>
                 <li>
-                  <a href="http://arthurk.dev">
+                  <a href="https://arthurk.dev" target="_blank">
                     <img src="images/icons/website_icon.png" alt="website" />
                   </a>
                 </li>
                 <li>
                   <a
-                    href="https://www.linkedin.com/in/arthurkauffman/"
+                    href="https://www.linkedin.com/in/arthurkauffman/" target="_blank"
                   >
                     <img src="images/icons/linked_in_icon.png" alt="linkedin" />
                   </a>
@@ -1546,7 +1548,6 @@
                     arr3.push(
                       `${`<img src="images/icons/email_icon.png" alt="email" /></a>`}`
                     );
-                    console.log(arr3);
                     document.write(arr3.join(''));
                     // -->
                   </script>
