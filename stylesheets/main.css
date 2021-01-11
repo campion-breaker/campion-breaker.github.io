@@ -599,7 +599,7 @@ footer,
   text-decoration: none;
 }
 
-#our-team li > img {
+#our-team li > a img {
   border-radius: 100%;
   margin: 0 auto 20px;
   width: 15vw;
@@ -621,7 +621,7 @@ footer,
   filter: invert(20%);
 }
 
-#our-team .individual li {
+#our-team .individual  li {
   margin: 10px 10px 0 10px;
 }
 
