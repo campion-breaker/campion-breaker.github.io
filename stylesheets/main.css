@@ -610,7 +610,7 @@ footer,
   margin: 0;
 }
 
-#our-team .individual li img {
+#our-team .individual li a img {
   border-radius: 45px;
   padding: 2px;
   margin-top: 10px;
